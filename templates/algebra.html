@@ -1,0 +1,186 @@
+<!doctype html>
+<head>
+    <style>
+        /* CSS comes here */
+        #video {
+            border-radius:  40px;
+            width: 60%;
+            height: 30%;
+        }
+
+
+        #photo {
+            width: 0px;
+            height: 0px;
+        }
+
+        #canvas {
+            display: none;
+        }
+
+        .camera {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            display: block;
+        }
+
+        .output {
+            width: 0px;
+            display: inline-block;
+        }
+
+         #startbutton {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #008DD5;
+            color: white;
+            border-width: 1px;
+            border-color: None;
+            border-radius: 4px;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+
+        .contentarea {
+            font-size: 16px;
+            font-family: Arial;
+            text-align: center;
+        }
+    </style>
+ <title>Finger Count Game</title>
+</head>
+<body>
+     <div class="contentarea">
+        <h1> Finger Count Game</h1>
+        <p>Show the number of fingers requested below:</p>
+         <p>Results:{{results}}</p>
+         <p id="finger_request">{{ name }}</p>
+        <div class="camera">
+            <video id="video">Video stream not available.</video>
+            <div><button id="startbutton">Take photo</button></div>
+        </div>
+        <canvas id="canvas"></canvas>
+        <div class="output">
+            <img id="photo" alt="The screen capture will appear in this box.">
+        </div>
+    </div>
+
+    <script>
+        /* JS comes here */
+        (function () {
+
+            var width = 320; // We will scale the photo width to this
+            var height = 0; // This will be computed based on the input stream
+
+            var streaming = false;
+
+            var video = null;
+            var canvas = null;
+            var photo = null;
+            var startbutton = null;
+            var textOutput = null;
+
+            function startup() {
+                video = document.getElementById('video');
+                canvas = document.getElementById('canvas');
+                photo = document.getElementById('photo');
+                startbutton = document.getElementById('startbutton');
+
+                navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: false
+                })
+                    .then(function (stream) {
+                        video.srcObject = stream;
+                        video.play();
+                    })
+                    .catch(function (err) {
+                        console.log("An error occurred: " + err);
+                    });
+
+                video.addEventListener('canplay', function (ev) {
+                    if (!streaming) {
+                        height = video.videoHeight / (video.videoWidth / width);
+
+                        if (isNaN(height)) {
+                            height = width / (4 / 3);
+                        }
+
+                        video.setAttribute('width', width);
+                        video.setAttribute('height', height);
+                        canvas.setAttribute('width', width);
+                        canvas.setAttribute('height', height);
+                        streaming = true;
+                    }
+                }, false);
+
+                startbutton.addEventListener('click', function (ev) {
+                    takepicture();
+                    ev.preventDefault();
+
+                    /* my code for image to text */
+                    var canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    var context = canvas.getContext('2d');
+                    context.drawImage(video, 0, 0, width, height);
+                    var dataURL = canvas.toDataURL('image/png');
+                    var imageData = dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
+
+                    // Send the base64-encoded image data to the OCR endpoint
+                    fetch('/extract_text1', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: 'image_data=' + encodeURIComponent(imageData)
+                    })
+                        .then(response=>{
+                            if(response.ok){
+                                location.reload()
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log('An error occurred:', error);
+                        });
+
+                }, false);
+
+                clearphoto();
+            }
+
+
+            function clearphoto() {
+                var context = canvas.getContext('2d');
+                context.fillStyle = "#AAA";
+                context.fillRect(0, 0, canvas.width, canvas.height);
+
+                var data = canvas.toDataURL('image/png');
+                photo.setAttribute('src', data);
+            }
+
+            function takepicture() {
+                var context = canvas.getContext('2d');
+                if (width && height) {
+                    canvas.width = width;
+                    canvas.height = height;
+                    context.drawImage(video, 0, 0, width, height);
+
+                    var data = canvas.toDataURL('image/png');
+                    photo.setAttribute('src', data);
+                } else {
+                    clearphoto();
+                }
+            }
+
+            window.addEventListener('load', startup, false);
+        })();
+    </script>
+</body>
+</html>

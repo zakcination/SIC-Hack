@@ -1,0 +1,199 @@
+#btn-start {
+  border-color: white;
+  color: black;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  padding: 0px 120px;
+}
+
+#btn-start:hover {
+  border-color: #000000;
+  color: black;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  padding: 0px 120px;
+}
+
+#startbutton {
+  position: relative;
+  bottom: 30px;
+  border-radius: 15px;
+  background-image: url('../../assets/img/button.png');
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 10vh;
+}
+
+#startbutton:hover {
+  position: relative;
+  bottom: 30px;
+  border-radius: 15px;
+  background-image: url('../../assets/img/button.png');
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 10vh;
+  border: 3px solid;
+  border-color: black;
+}
+
+.bg {
+  background-image: url('../../assets/img/back_sandar.png');
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100vh;
+}
+
+#title-div {
+  text-align: center;
+  padding: 20px;
+  font-size: 55px;
+}
+
+.sandar-span {
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 110px;
+}
+
+.column-content-lvl {
+  position: relative;
+}
+
+.column-content-camera {
+  position: relative;
+  padding: 10px;
+}
+
+.column-content-lvl button {
+  position: relative;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 3px solid;
+}
+
+.column-content-lvl button:hover {
+  position: relative;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 3px solid;
+}
+
+.five-col {
+  flex: 0 0 auto;
+  width: 20%;
+  text-align: center;
+}
+
+.sign-span {
+  font-size: 110px;
+  border-radius: 50%;
+}
+
+#video {
+  border-radius: 30px;
+  width: 65%;
+  height: 30%;
+}
+
+#photo {
+  width: 0px;
+  height: 0px;
+}
+
+#canvas {
+  display: none;
+}
+
+.camera {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  display: block;
+}
+
+.output {
+  width: 0px;
+  display: inline-block;
+}
+
+.contentarea {
+  font-size: 16px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .sandar-span, .sign-span {
+    border-radius: 5px;
+    padding: 20px;
+    font-size: 50px;
+  }
+}
+
+@media (max-width: 502px) {
+  #title-div {
+    text-align: center;
+    padding: 20px;
+    font-size: 35px;
+  }
+}
+
+@media (min-width: 1601px) {
+  #startbutton {
+    position: relative;
+    bottom: 30px;
+    border-radius: 15px;
+    background-image: url('../../assets/img/button.png');
+    background-size: cover;
+    background-position: center center;
+    width: 100%;
+    height: 10vh;
+  }
+}
+
+@media (min-width: 768px) {
+  #startbutton {
+    position: relative;
+    bottom: 30px;
+    border-radius: 15px;
+    background-image: url('../../assets/img/button.png');
+    background-size: cover;
+    background-position: center center;
+    width: 100%;
+    height: 10vh;
+  }
+}
+
+@media (min-width: 412px) {
+  #startbutton {
+    position: relative;
+    bottom: 30px;
+    border-radius: 15px;
+    background-image: url('../../assets/img/button.png');
+    background-size: cover;
+    background-position: center center;
+    width: 100%;
+    height: 10vh;
+  }
+}
+
+@media (min-width: 1601px) {
+  .sandar-span, .sign-span {
+    border-radius: 5px;
+    padding: 60px;
+    font-size: 100px;
+  }
+}
+
